@@ -1,0 +1,4 @@
+cg-server/node_modules
+cg-server/configuration/dbconfig.json
+cg-ui/node_modules
+cg-ui/config.js
