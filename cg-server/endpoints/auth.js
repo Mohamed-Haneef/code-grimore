@@ -1,8 +1,16 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const cors = require('cors')
+const User = require('../core/user.js');
 
 const router = express.Router();
+const corsOptions = {
+    origin: 'https://stickynotes.selfmade.one',
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+router.use(cors(corsOptions));
 
 // Register endpoint
 router.post('/register', async (req, res) => {
@@ -12,7 +20,7 @@ router.post('/register', async (req, res) => {
         await user.save();
         res.status(201).send({ message: 'User registered successfully' });
     } catch (error) {
-        res.status(500).send({ message: 'Error registering user', error });
+        res.status(500).send({ message: 'Error registering user' });
     }
 });
 

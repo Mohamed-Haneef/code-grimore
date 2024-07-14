@@ -1,14 +1,18 @@
 const express = require('express');
-const Note = require('../models/Note');
+const Note = require('../core/notes');
 const authMiddleware = require('../middleware/auth_mw.js');
 
 const router = express.Router();
 
 router.use(authMiddleware);
-
 router.get('/', async (req, res) => {
-  const notes = await Note.find({ userId: req.user.userId });
-  res.send(notes);
+  try {
+    const notes = await Note.find({ userId: req.user.userId });
+    res.send(notes);
+  } catch (error) {
+    console.error('Error fetching notes:', error);
+    res.status(500).send({ message: 'Error fetching notes', error });
+  }
 });
 
 router.post('/', async (req, res) => {
