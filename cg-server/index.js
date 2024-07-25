@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
-const verificationRoute = require('./endpoints/token_verification')
 const authRoutes = require('./endpoints/auth');
 const noteRoutes = require('./endpoints/notes');
 const connectDB = require('./configuration/database');
@@ -24,7 +23,6 @@ app.use(cors(corsOptions));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', noteRoutes);
-app.use('/api/verification', verificationRoute)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

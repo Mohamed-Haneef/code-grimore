@@ -8,7 +8,6 @@ const db_password = db_cred.db_password;
 const db_host = db_cred.db_host;
 const db_port = db_cred.db_port;
 const db_name = db_cred.db_name;
-// mongoose.connect('mongodb://webzard:webzard123@mongodb.selfmade.ninja:27017/webzard_sticky_notes?authSource=users')
 const db_conn = `mongodb://${db_user}:${db_password}@${db_host}:${db_port}/${db_name}?authSource=users`;
 console.log(db_conn)
 

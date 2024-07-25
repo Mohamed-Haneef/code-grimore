@@ -12,14 +12,22 @@ const corsOptions = {
 
 router.use(cors(corsOptions));
 
-// Register endpoint
 router.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
+
+        // Check if the user already exists
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).send({ message: 'Username already exists' });
+        }
+
+        // Create and save the new user
         const user = new User({ username, password });
         await user.save();
         res.status(201).send({ message: 'User registered successfully' });
     } catch (error) {
+        console.error('Error registering user:', error);
         res.status(500).send({ message: 'Error registering user' });
     }
 });
@@ -32,7 +40,7 @@ router.post('/login', async (req, res) => {
         if (!user || !(await user.comparePassword(password))) {
             return res.status(401).send({ message: 'Invalid credentials' });
         }
-        const token = jwt.sign({ userId: user._id }, 'secret_key', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, 'secret_key', { expiresIn: '3h' });
         res.send({ token });
     } catch (error) {
         res.status(500).send({ message: 'Error logging in', error });
